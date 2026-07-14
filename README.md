@@ -10,8 +10,7 @@ zurück an Home Assistant.
 - 2.8" TFT SPI, 320×240, ILI9341-Treiber – andere Displaydiagonalen mit demselben Treiber-Chip
   und derselben 320×240-Auflösung sollten ebenso funktionieren
 - Resistiver Touch, XPT2046-Controller
-- Einbau **horizontal (Querformat)** – am realen Gerät verifiziert, abweichend von der
-  ursprünglich angenommenen Hochformat-Montage
+- Einbau **horizontal (Querformat)**
 
 ### Pinbelegung
 
