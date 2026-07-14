@@ -5,7 +5,11 @@ virtuellen Klingel-Button, und meldet Klingelereignisse per MQTT zurück.
 
 Home Assistant ist der übliche Anwendungsfall (inkl. automatischer MQTT-Discovery), aber keine
 Voraussetzung: Bilder lassen sich auch direkt über die Weboberfläche hochladen, und jeder andere
-MQTT-Broker bzw. jede andere Automatisierung funktioniert genauso über dieselben Topics.
+MQTT-Broker bzw. jede andere Automatisierung funktioniert genauso über dieselben Topics. Auch ganz
+ohne MQTT (z.B. kein Broker konfiguriert oder gerade nicht erreichbar) bleibt das Gerät über die
+Weboberfläche voll nutzbar - Bild-Upload, Klingel-Button-Aussehen/-Position, Touch-Bereich,
+Overlay-Sichtbarkeit und Klingelton-Dauer lassen sich dort einstellen, und der Klingel-Button
+selbst (Bildschirm-Animation + physischer Klingelton) funktioniert unabhängig davon.
 
 ## Hardware
 
