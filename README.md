@@ -34,10 +34,6 @@ Display auf HSPI (SPI2, `TFT_eSPI`-eigene Instanz), Touch auf VSPI (SPI3, Arduin
 | TOUCH_IRQ | 33 | GPIO |
 | BELL_MOSFET (AO3400-Gate) | 25 | GPIO |
 
-**TODO:** Diese Pinbelegung ist noch nicht an realer Hardware verifiziert (siehe `src/config.h`
-und `platformio.ini`). Alle Signale wurden bewusst von den ESP32-Strapping-Pins (0/2/5/12/15)
-ferngehalten, damit ein Verdrahtungsfehler den Boot nicht blockieren sollte.
-
 ### Weitere offene Punkte
 
 - **Flash-Größe/Partitionsschema:** Angenommen wird ein 4MB-ESP32-WROOM-32-Modul
