@@ -1,8 +1,11 @@
 # Haustürklingel-Display (ESP32)
 
-ESP32-Firmware für ein 2.8"-Touchdisplay an der Haustür: zeigt ein von Home Assistant vorgegebenes
-Bild an, überlagert mit einem virtuellen Klingel-Button, und meldet Klingelereignisse per MQTT
-zurück an Home Assistant.
+ESP32-Firmware für ein 2.8"-Touchdisplay an der Haustür: zeigt ein Bild an, überlagert mit einem
+virtuellen Klingel-Button, und meldet Klingelereignisse per MQTT zurück.
+
+Home Assistant ist der übliche Anwendungsfall (inkl. automatischer MQTT-Discovery), aber keine
+Voraussetzung: Bilder lassen sich auch direkt über die Weboberfläche hochladen, und jeder andere
+MQTT-Broker bzw. jede andere Automatisierung funktioniert genauso über dieselben Topics.
 
 ## Hardware
 
