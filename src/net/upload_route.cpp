@@ -102,7 +102,7 @@ const char UPLOAD_FORM[] PROGMEM = R"HTML(<!DOCTYPE html><html><head><meta chars
 </p>
 <p id="overlayStatus"></p>
 
-<h2>Physischer Klingelton (AO3400)</h2>
+<h2>Physischer Klingelton</h2>
 <p>Unabh&auml;ngig von der Bildschirm-Animation - eigene Dauer f&uuml;r den MOSFET-Impuls:</p>
 <p>
 <label>Dauer (ms): <input type="number" id="klingeltonDauer" min="0" max="%KLINGELTON_MAX%" style="width:80px;"></label>

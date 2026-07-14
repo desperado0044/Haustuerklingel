@@ -42,7 +42,7 @@ Display und Touch laufen bewusst auf **getrennten SPI-Bussen**: Display auf HSPI
 | TOUCH_MISO | 19 | VSPI (nativ) |
 | TOUCH_CS | 27 | GPIO |
 | TOUCH_IRQ | 33 | GPIO |
-| BELL_MOSFET (AO3400-Gate) | 25 | GPIO |
+| BELL_MOSFET (Gate) | 25 | GPIO |
 
 ### Konfigurationshinweise
 
@@ -171,7 +171,7 @@ Discovery-Configs für Home Assistant:
 - Number-Entity "Helligkeit"
 - Drei `select`-Entities (echte Dropdown-Auswahl, keine rohen Zahlencodes nötig) für
   Klingel-Button-Farbe, -Schriftstärke und -Position
-- Number-Entity "Klingelton Dauer" (physischer AO3400-Impuls)
+- Number-Entity "Klingelton Dauer" (physischer MOSFET-Impuls)
 - `switch`-Entity "Touch vollflächig"
 - `switch`-Entity "Klingel-Overlay ausblenden"
 
@@ -184,15 +184,20 @@ Farboptionen (aus `src/display/button_presets.h`): `Weiss`, `Rot`, `Gruen`, `Bla
 entsprechen der Nummerierung im 3×5-Raster auf der Weboberfläche (Zeile für Zeile, links nach
 rechts, 1–15).
 
-## Physischer Klingelton (AO3400)
+## Physischer Klingelton
 
-Ein AO3400 (logic-level N-Kanal-MOSFET) an `BELL_MOSFET_PIN` (siehe `src/config.h`) wird bei
-jedem Klingel-Tastendruck für eine konfigurierbare Dauer eingeschaltet - **unabhängig** von der
-0,5s-Bildschirm-Invertierung, mit eigener nicht-blockierender Zustandsmaschine
-(`src/display/bell_output.h`). Default 500ms, änderbar über die Weboberfläche
+Ein logic-level N-Kanal-MOSFET (z.B. AO3400 oder IRF3708) an `BELL_MOSFET_PIN` (siehe
+`src/config.h`) wird bei jedem Klingel-Tastendruck für eine konfigurierbare Dauer eingeschaltet -
+**unabhängig** von der 0,5s-Bildschirm-Invertierung, mit eigener nicht-blockierender
+Zustandsmaschine (`src/display/bell_output.h`). Default 500ms, änderbar über die Weboberfläche
 (`/klingelton`-Abschnitt auf der Startseite) oder per MQTT (`haustuer/klingelton_dauer`, in NVS
 persistiert). Der GPIO ist logic-level und steuert das MOSFET-Gate direkt mit 3,3V an - kein
 Levelshifter nötig.
+
+Bis zur eigentlichen Initialisierung liegt der Pin am internen Pulldown des ESP32 (siehe
+`BellOutput::earlyInit()`, als erste Zeile in `setup()` aufgerufen), statt zu floaten - ohne das
+kann das Gate je nach MOSFET (in der Praxis beim IRF3708 beobachtet) während der Boot-Phase
+Undefiniertes tun und den MOSFET kurz leitend werden lassen.
 
 ## Touch-Bereich (vollflächig vs. Button)
 

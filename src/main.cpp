@@ -4,12 +4,17 @@
 #include "ipc/messages.h"
 #include "display/image_cache.h"
 #include "display/display_task.h"
+#include "display/bell_output.h"
 #include "net/network_task.h"
 
 QueueHandle_t g_toDisplayQueue = nullptr;
 QueueHandle_t g_toNetworkQueue = nullptr;
 
 void setup() {
+  // Allererste Zeile, noch vor Serial.begin(): hält das MOSFET-Gate während der übrigen (relativ
+  // langsamen) Initialisierung unten definiert auf Low, statt bis zu BellOutput::begin() zu floaten.
+  BellOutput::earlyInit();
+
   Serial.begin(115200);
   delay(200);
   Serial.println("Haustuerklingel-Firmware gestartet");

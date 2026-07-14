@@ -10,7 +10,7 @@ enum class ToDisplayMsgType : uint8_t {
   SetBrightness,       // haustuer/helligkeit-Payload, bereits auf 0-255 geparst.
   StatusText,          // Status-Zeile für Boot/AP-Modus, auf schlichtem Hintergrund (noch kein Bild).
   SetButtonStyle,      // Farbe/Schriftstärke/Position des Klingel-Buttons, von /klingelstil gesetzt.
-  SetBellDuration,     // Dauer des physischen Klingelton-Impulses (AO3400), von /klingelton bzw. MQTT gesetzt.
+  SetBellDuration,     // Dauer des physischen Klingelton-Impulses (MOSFET), von /klingelton bzw. MQTT gesetzt.
   SetTouchMode,        // Vollflächig vs. nur Klingel-Button-Trefferfläche, von /touchmodus bzw. MQTT gesetzt.
   SetOverlayVisible,   // Klingel-Button-Overlay ein-/ausblenden, von /overlay bzw. MQTT gesetzt.
 };

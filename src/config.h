@@ -89,7 +89,7 @@
 #define MQTT_TOPIC_KLINGEL_FARBE "haustuer/klingelfarbe"
 #define MQTT_TOPIC_KLINGEL_STAERKE "haustuer/klingelstaerke"
 #define MQTT_TOPIC_KLINGEL_POSITION "haustuer/klingelposition"
-// Physischer Klingelton (AO3400) - Dauer in ms, unabhängig von den drei Topics oben.
+// Physischer Klingelton (MOSFET) - Dauer in ms, unabhängig von den drei Topics oben.
 #define MQTT_TOPIC_KLINGELTON_DAUER "haustuer/klingelton_dauer"
 // Touch-Modus: Payload "ON" = vollflächig (jede Berührung klingelt), "OFF" = nur innerhalb der
 // Klingel-Button-Trefferfläche (Standard) - Standard-MQTT-switch-Konvention.
@@ -154,8 +154,11 @@
 #define OVERLAY_DEFAULT_HIDDEN false
 
 // ---------------------------------------------------------------------------------------------
-// Physischer Klingelton (AO3400 N-Kanal-MOSFET als Low-Side-Schalter, direkt per 3.3V-GPIO
-// angesteuert - AO3400 ist logic-level, kein Levelshifter nötig)
+// Physischer Klingelton (N-Kanal-MOSFET, logic-level, z.B. AO3400/IRF3708, als Low-Side-Schalter,
+// direkt per 3.3V-GPIO angesteuert, kein Levelshifter nötig). Gate hängt bis BellOutput::begin()
+// am internen Pulldown des Pins (siehe BellOutput::earlyInit(), so früh wie möglich in main.cpp's
+// setup() aufgerufen) statt frei zu floaten - ohne den war das Gate beim IRF3708 in der Praxis
+// undefiniert genug, um den MOSFET während der Boot-Phase leiten zu lassen.
 // ---------------------------------------------------------------------------------------------
 #define BELL_MOSFET_PIN 25
 // Eigene, von der visuellen Klingel-Animation unabhängige Dauer (siehe display/bell_output.h) -

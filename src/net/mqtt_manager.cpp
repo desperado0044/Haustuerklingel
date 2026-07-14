@@ -180,7 +180,7 @@ void MqttManager::handleMessage(const char* topic, byte* payload, unsigned int l
       sendButtonStyle(style.color, style.weight, pos.x, pos.y);
     }
   } else if (t == MQTT_TOPIC_KLINGELTON_DAUER) {
-    // Physischer Klingelton (AO3400) - eigene, von den drei Topics oben unabhängige Einstellung.
+    // Physischer Klingelton (MOSFET) - eigene, von den drei Topics oben unabhängige Einstellung.
     int ms = constrain(msg.toInt(), 0, BELL_MAX_DURATION_MS);
     sendBellDuration(static_cast<uint16_t>(ms));
   } else if (t == MQTT_TOPIC_TOUCH_MODUS) {
@@ -328,7 +328,7 @@ void MqttManager::publishDiscovery() {
           .c_str(),
       true);
 
-  // Physischer Klingelton (AO3400) - eigene number-Entity, unabhängig von den drei select-
+  // Physischer Klingelton (MOSFET) - eigene number-Entity, unabhängig von den drei select-
   // Entities oben.
   client.publish(
       "homeassistant/number/" HA_DEVICE_ID "/klingelton_dauer/config",

@@ -7,6 +7,10 @@ BellOutput& BellOutput::instance() {
   return output;
 }
 
+void BellOutput::earlyInit() {
+  pinMode(BELL_MOSFET_PIN, INPUT_PULLDOWN);
+}
+
 void BellOutput::begin() {
   pinMode(BELL_MOSFET_PIN, OUTPUT);
   digitalWrite(BELL_MOSFET_PIN, LOW);
