@@ -18,13 +18,6 @@ Display und Touch laufen bewusst auf **getrennten SPI-Bussen** (Vorgabe aus dem 
 Display auf HSPI (SPI2, `TFT_eSPI`-eigene Instanz), Touch auf VSPI (SPI3, Arduino-globales
 `SPI`-Objekt – `XPT2046_Touchscreen` erlaubt keine eigene SPI-Instanz).
 
-> ⚠️ **Vor dem Verdrahten der Signalpins zuerst die Stromversorgung nicht vergessen:**
-> **VCC → 3.3V** und **GND → GND**, sowohl am Display-Modul als auch am Touch-Controller (bei den
-> meisten 2.8"-Modulen liegen beide auf derselben Platine/Pinleiste). Ohne VCC/GND bleibt das
-> Display komplett dunkel (keine Hintergrundbeleuchtung) – die Firmware läuft in dem Fall trotzdem
-> völlig normal weiter (siehe seriellen Log), da sie das nicht erkennen kann. Erst wenn Backlight
-> und Bildinhalt beide da sind, macht es Sinn die einzelnen Signalpins unten durchzugehen.
-
 | Signal | Pin | Bus |
 |---|---|---|
 | TFT_SCLK | 14 | HSPI (nativ) |
@@ -69,6 +62,11 @@ pio device monitor      # seriellen Log ansehen
 Für spätere Updates steht auch OTA über [ElegantOTA](https://github.com/ayushsharma82/ElegantOTA)
 bereit: `http://<ip-oder-hostname>/update` (HTTP-Basic-Auth, siehe `OTA_HOSTNAME`/`OTA_PASSWORD`
 in `src/config.h`).
+
+Für ein direktes `pio run -e esp32dev_ota -t upload` (kein manuelles Hochladen über die
+`/update`-Seite im Browser nötig) in `platformio.ini`, Abschnitt `[env:esp32dev_ota]`, den
+Platzhalter `custom_upload_url` durch die tatsächliche lokale IP oder den Hostnamen des Geräts im
+eigenen WLAN ersetzen (z.B. `http://192.168.1.153/update` oder `http://haustuerklingel.local/update`).
 
 ## Erstinbetriebnahme
 
