@@ -231,3 +231,8 @@ Die Firmware läuft auf beiden ESP32-Kernen (FreeRTOS):
 
 Beide Kerne kommunizieren ausschließlich über zwei FreeRTOS-Queues (`src/ipc/messages.h`), da
 weder die SPI-Peripherie noch der MQTT-Client threadsicher zwischen den Kernen geteilt werden.
+
+## Lizenz
+
+[PolyForm Noncommercial License 1.0.0](LICENSE) - nichtkommerzielle Nutzung frei erlaubt,
+kommerzielle Nutzung ausgeschlossen.
