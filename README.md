@@ -14,9 +14,9 @@ zurück an Home Assistant.
 
 ### Pinbelegung
 
-Display und Touch laufen bewusst auf **getrennten SPI-Bussen** (Vorgabe aus dem Lastenheft):
-Display auf HSPI (SPI2, `TFT_eSPI`-eigene Instanz), Touch auf VSPI (SPI3, Arduino-globales
-`SPI`-Objekt – `XPT2046_Touchscreen` erlaubt keine eigene SPI-Instanz).
+Display und Touch laufen bewusst auf **getrennten SPI-Bussen**: Display auf HSPI (SPI2,
+`TFT_eSPI`-eigene Instanz), Touch auf VSPI (SPI3, Arduino-globales `SPI`-Objekt –
+`XPT2046_Touchscreen` erlaubt keine eigene SPI-Instanz).
 
 | Signal | Pin | Bus |
 |---|---|---|
