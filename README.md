@@ -13,6 +13,9 @@ selbst (Bildschirm-Animation + physischer Klingelton) funktioniert unabhängig d
 
 ## Hardware
 
+> Nachbau und Verdrahtung auf eigene Gefahr - keine Garantie für Vollständigkeit oder Richtigkeit
+> dieser Anleitung.
+
 - ESP32 (Bare-Devkit, kein fertiges Board wie das "Cheap Yellow Display")
 - 2.8" TFT SPI, 320×240, ILI9341-Treiber – andere Displaydiagonalen mit demselben Treiber-Chip
   und derselben 320×240-Auflösung sollten ebenso funktionieren
