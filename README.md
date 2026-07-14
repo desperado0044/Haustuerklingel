@@ -7,7 +7,8 @@ zurück an Home Assistant.
 ## Hardware
 
 - ESP32 (Bare-Devkit, kein fertiges Board wie das "Cheap Yellow Display")
-- 2.8" TFT SPI, 320×240, ILI9341-Treiber
+- 2.8" TFT SPI, 320×240, ILI9341-Treiber – andere Displaydiagonalen mit demselben Treiber-Chip
+  und derselben 320×240-Auflösung sollten ebenso funktionieren
 - Resistiver Touch, XPT2046-Controller
 - Einbau **horizontal (Querformat)** – am realen Gerät verifiziert, abweichend von der
   ursprünglich angenommenen Hochformat-Montage
@@ -34,7 +35,7 @@ Display auf HSPI (SPI2, `TFT_eSPI`-eigene Instanz), Touch auf VSPI (SPI3, Arduin
 | TOUCH_IRQ | 33 | GPIO |
 | BELL_MOSFET (AO3400-Gate) | 25 | GPIO |
 
-### Weitere offene Punkte
+### Konfigurationshinweise
 
 - **Flash-Größe/Partitionsschema:** Angenommen wird ein 4MB-ESP32-WROOM-32-Modul
   (`min_spiffs.csv`-Partitionstabelle). Bei mehr Flash ggf. `board_build.partitions` in
