@@ -153,21 +153,46 @@ void networkTaskEntry(void* /*pvParameters*/) {
   g_server.begin();
 
   unsigned long lastWifiCheck = 0;
+  unsigned long lastHardReset = 0;
+  unsigned long disconnectedSince = 0;  // 0 = aktuell verbunden (oder noch nie getrennt gewesen)
 
   for (;;) {
     esp_task_wdt_reset();
     ElegantOTA.loop();
 
     if (WiFi.status() != WL_CONNECTED) {
-      // Reconnect-Watchdog: versucht still per Timer erneut, fällt nie zurück ins blockierende
-      // AP-Portal, sobald einmal erfolgreich verbunden (Vorgabe aus dem Lastenheft) - ein
-      // erneutes Portal würde Aus-/Einstecken oder Neuflashen erfordern, was im laufenden
-      // Betrieb nicht akzeptabel ist.
-      if (millis() - lastWifiCheck > WIFI_RECONNECT_CHECK_MS) {
+      unsigned long now = millis();
+      if (disconnectedSince == 0) disconnectedSince = now;
+      unsigned long downFor = now - disconnectedSince;
+
+      // Eskalationsstufen bei anhaltendem Ausfall, siehe Begruendung bei den Konstanten in
+      // config.h - ein dauerhaft haengender Zustand (9 Tage offline, nur per Stromzyklus
+      // behoben) darf sich nicht wiederholen.
+      if (downFor > WIFI_RESTART_AFTER_MS) {
+        Serial.println("WLAN seit " + String(downFor / 60000) + " Minuten getrennt - letzter Ausweg: Neustart.");
+        delay(100);  // Serial-Ausgabe noch rausschreiben lassen
+        ESP.restart();
+      } else if (downFor > WIFI_HARD_RESET_AFTER_MS && now - lastHardReset > WIFI_HARD_RESET_RETRY_MS) {
+        // WLAN-Stack komplett neu initialisieren statt nur reconnect() - haeufiger Fix fuer
+        // haengende Funk-/Treiberzustaende, die ein einfaches reconnect() nicht loest.
+        Serial.println("WLAN seit " + String(downFor / 60000) + " Minuten getrennt - WLAN-Stack neu initialisieren.");
+        WiFi.disconnect(true);
+        WiFi.mode(WIFI_OFF);
+        delay(100);
+        WiFi.mode(WIFI_STA);
+        WiFi.setSleep(false);
+        WiFi.begin(CredentialsManager::instance().getWifiSsid().c_str(), CredentialsManager::instance().getWifiPass().c_str());
+        lastHardReset = now;
+      } else if (now - lastWifiCheck > WIFI_RECONNECT_CHECK_MS) {
+        // Reconnect-Watchdog: versucht still per Timer erneut, fällt nie zurück ins blockierende
+        // AP-Portal, sobald einmal erfolgreich verbunden (Vorgabe aus dem Lastenheft) - ein
+        // erneutes Portal würde Aus-/Einstecken oder Neuflashen erfordern, was im laufenden
+        // Betrieb nicht akzeptabel ist.
         WiFi.reconnect();
-        lastWifiCheck = millis();
+        lastWifiCheck = now;
       }
     } else {
+      disconnectedSince = 0;
       MqttManager::instance().loop();
     }
 

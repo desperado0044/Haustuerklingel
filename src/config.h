@@ -63,6 +63,17 @@
 #define WIFI_AP_PASSWORD ""
 #define WIFI_CONNECT_TIMEOUT_MS 15000UL
 #define WIFI_RECONNECT_CHECK_MS 5000UL
+// Eskalierende Wiederherstellung bei anhaltendem WLAN-Ausfall: ein einfaches WiFi.reconnect()
+// hat sich als unzureichend erwiesen (Geraet blieb einmal 9 Tage offline, bis ein manueller
+// Stromzyklus half - vermutlich ein haengender Funk-/Treiberzustand, den reconnect() allein
+// nicht loest). Ab WIFI_HARD_RESET_AFTER_MS wird der WLAN-Stack komplett neu initialisiert
+// (WiFi.mode AUS/AN statt nur reconnect), danach alle WIFI_HARD_RESET_RETRY_MS erneut. Hilft
+// das binnen WIFI_RESTART_AFTER_MS immer noch nicht, als letzter Ausweg ein voller Neustart
+// (ESP.restart()) - das kommt dem manuellen Stromzyklus am naechsten, den software-seitig
+// Erreichbaren.
+#define WIFI_HARD_RESET_AFTER_MS (5UL * 60UL * 1000UL)    // 5 Minuten durchgehend getrennt
+#define WIFI_HARD_RESET_RETRY_MS (5UL * 60UL * 1000UL)    // danach alle 5 Minuten erneut versuchen
+#define WIFI_RESTART_AFTER_MS (30UL * 60UL * 1000UL)       // 30 Minuten durchgehend getrennt
 
 // NVS-Namespace (Preferences) für persistierte WLAN-/MQTT-Zugangsdaten und Touch-Kalibrierung.
 #define NVS_NAMESPACE "haustuerklingel"
